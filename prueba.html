@@ -5,26 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- CDN librería / también se puede instalar dependencia en proyecto -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js"></script>
     <style>
+        /* clase para segundo ejemplo */
         .hidden {
             display: none;
-        }
-        .show {
-            display: block;
         }
     </style>
 </head>
 <body>
+    <!-- componente definido con js en linea -->
+    <!-- En x-data se definen las variables -->
+    <!-- @click.away evento de clic fuera del div -->
     <div x-data="{open:false}" @click.away="open=false">
+        <!-- @click evento clic -->
         <button @click="open=!open">Mostrar</button>
+        <!-- x-show muestra si se cumple la condición -->
         <div x-show="open" >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores mollitia corrupti libero consequatur nesciunt rerum perferendis iure culpa quibusdam et, repudiandae autem hic distinctio necessitatibus exercitationem perspiciatis itaque maiores explicabo?
         </div>
     </div>
     <hr>
+    <!-- Componente definido con js en una función -->
     <div x-data="ejemploAlpine()" @click.away="away()">
+        <!-- :disabled bind que si se cumple la condición la propiedad se activa -->
         <button @click="toggle()" :disabled="open">Mostrar</button>
+        <!-- :x-class bind que aplica las clases indicadas si se cumplen las condiciones -->
         <div :class="{'hidden':!open}" >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores mollitia corrupti libero consequatur nesciunt rerum perferendis iure culpa quibusdam et, repudiandae autem hic distinctio necessitatibus exercitationem perspiciatis itaque maiores explicabo?
         </div>
@@ -32,21 +39,28 @@
     <hr>
 
     <div x-data="ejemploXModel()">
+        <!-- x-model vincula el valor del input con el de una variable -->
         <input type="text" x-model="mensaje">
+        <!-- x-text incluye el texto de una variable -->
         <p x-text="mensaje"></p>
     </div>
     <hr>
+
     <div x-data="ejemploXModelXFor()">
         <input type="text" x-model="mensaje" @keydown.enter="add()">
         <button @click="add()">Añadir</button>
         <ul>
+            <!-- directiva x-for, debe incluirse dentro de una etiqueta template -->
             <template x-for="item in mensajes">
                 <li x-text="item"></li>
             </template>
         </ul>
+        <!-- directiva x-if, debe incluirse dentro de una etiqueta template -->
         <template x-if="mensajes.length == 0">
             <p>Sin elementos</p>
         </template>
+        <!-- x-ref permite referenciar el elemento, para acceder desde js -->
+        <p x-ref="contador"></p>
     </div>
 
 
@@ -79,9 +93,9 @@
                 add(){
                     this.mensajes.push(this.mensaje);
                     this.mensaje = null;
+                    // Se accede a un elemento referenciado de la siguiente manera
+                    this.$refs.contador.innerText = this.mensajes.length;
                 }
-
-
             }
         }
     </script>
