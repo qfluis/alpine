@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div x-data="{open:false}" @click.away="open=false">
+        <button @click="open=!open">Mostrar</button>
+        <div x-show="open" >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores mollitia corrupti libero consequatur nesciunt rerum perferendis iure culpa quibusdam et, repudiandae autem hic distinctio necessitatibus exercitationem perspiciatis itaque maiores explicabo?
+        </div>
+    </div>
+    <hr>
+    <div x-data="ejemploAlpine()" @click.away="away()">
+        <button @click="toggle()" :disabled="open">Mostrar</button>
+        <div :class="{'hidden':!open}" >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores mollitia corrupti libero consequatur nesciunt rerum perferendis iure culpa quibusdam et, repudiandae autem hic distinctio necessitatibus exercitationem perspiciatis itaque maiores explicabo?
+        </div>
+    </div>
+    <hr>
+
+    <div x-data="ejemploXModel()">
+        <input type="text" x-model="mensaje">
+        <p x-text="mensaje"></p>
+    </div>
+    <hr>
+    <div x-data="ejemploXModelXFor()">
+        <input type="text" x-model="mensaje" @keydown.enter="add()">
+        <button @click="add()">Añadir</button>
+        <ul>
+            <template x-for="item in mensajes">
+                <li x-text="item"></li>
+            </template>
+        </ul>
+        <template x-if="mensajes.length == 0">
+            <p>Sin elementos</p>
+        </template>
+    </div>
+
+
+    <script>
+        function ejemploAlpine() {
+            return {
+                open: null,
+                start(){
+                    this.open = false;
+                },
+                toggle() {
+                    this.open = !this.open;
+                },
+                away(){
+                    this.open = false;
+                }
+            }
+        }
+
+        function ejemploXModel() {
+            return {
+                mensaje: 'ola k ase',
+            }
+        }
+
+        function ejemploXModelXFor() {
+            return {
+                mensaje: null,
+                mensajes: [],
+                add(){
+                    this.mensajes.push(this.mensaje);
+                    this.mensaje = null;
+                }
+
+
+            }
+        }
+    </script>
+    
+</body>
+</html>
